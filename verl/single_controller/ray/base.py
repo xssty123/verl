@@ -1027,6 +1027,11 @@ def create_colocated_worker_cls(class_dict: dict[str, RayClassWithInitArgs]):
     # TODO: create a class with customizable name
     class WorkerDict(worker_cls):
         def __init__(self):
+            # Worker.__init__ may set the NPU device, so resolve competing
+            # training/rollout OPP vendors before calling the base constructor.
+            from verl.utils.ascend_opp import prepare_fla_npu_training
+
+            prepare_fla_npu_training([entry["kwargs"] for entry in init_args_dict.values()])
             super().__init__()
             self.worker_dict = {}
             for key, user_defined_cls in cls_dict.items():
