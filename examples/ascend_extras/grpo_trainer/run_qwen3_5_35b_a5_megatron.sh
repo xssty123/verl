@@ -68,6 +68,7 @@ EXTRA_ARGS=(
     actor_rollout_ref.actor.ppo_epochs=1
     actor_rollout_ref.ref.log_prob_micro_batch_size_per_gpu=1
     actor_rollout_ref.rollout.enable_prefix_caching=True
+    +actor_rollout_ref.rollout.engine_kwargs.vllm.additional_config.rl_config.enabled=True
 )
 case "$PROFILE_ENABLE" in
     True|true|1)
